@@ -1,0 +1,314 @@
+[
+  {
+    "_id": "c1",
+    "name": "Rahul Sharma",
+    "email": "rahul.sharma@example.com",
+    "phone": "+91-9876543210",
+    "experience_years": 4,
+    "current_designation": "Software Engineer",
+    "current_company": "Infosys Ltd",
+    "education": [
+      {
+        "degree": "B.Tech",
+        "specialization": "Computer Science",
+        "university": "IIT Delhi",
+        "year_of_passing": 2018
+      }
+    ],
+    "key_skills": ["Python", "FastAPI", "React", "MongoDB", "Machine Learning"],
+    "total_experience": "4 years",
+    "preferred_location": "Bangalore",
+    "preferred_shift": "Day",
+    "current_location": "Pune",
+    "notice_period_days": 30,
+    "expected_ctc": "12 LPA",
+    "current_ctc": "9 LPA",
+    "resume_pdf": "/uploads/resumes/rahul_sharma.pdf"
+  },
+  {
+    "_id": "c2",
+    "name": "Priya Menon",
+    "email": "priya.menon@example.com",
+    "phone": "+91-9922334455",
+    "experience_years": 6,
+    "current_designation": "Data Analyst",
+    "current_company": "TCS",
+    "education": [
+      {
+        "degree": "M.Sc",
+        "specialization": "Data Science",
+        "university": "Christ University",
+        "year_of_passing": 2017
+      }
+    ],
+    "key_skills": ["SQL", "Power BI", "Python", "Excel", "Statistics"],
+    "total_experience": "6 years",
+    "preferred_location": "Hyderabad",
+    "preferred_shift": "Flexible",
+    "current_location": "Hyderabad",
+    "notice_period_days": 45,
+    "expected_ctc": "15 LPA",
+    "current_ctc": "11 LPA",
+    "resume_pdf": "/uploads/resumes/priya_menon.pdf"
+  },
+  {
+    "_id": "c3",
+    "name": "Amit Verma",
+    "email": "amit.verma@example.com",
+    "phone": "+91-9001122334",
+    "experience_years": 2,
+    "current_designation": "Frontend Developer",
+    "current_company": "Capgemini",
+    "education": [
+      {
+        "degree": "B.E",
+        "specialization": "Information Technology",
+        "university": "Mumbai University",
+        "year_of_passing": 2020
+      }
+    ],
+    "key_skills": ["HTML", "CSS", "JavaScript", "React", "Redux"],
+    "total_experience": "2 years",
+    "preferred_location": "Mumbai",
+    "preferred_shift": "Day",
+    "current_location": "Mumbai",
+    "notice_period_days": 60,
+    "expected_ctc": "7 LPA",
+    "current_ctc": "5 LPA",
+    "resume_pdf": "/uploads/resumes/amit_verma.pdf"
+  },
+  {
+    "_id": "c4",
+    "name": "Sneha Iyer",
+    "email": "sneha.iyer@example.com",
+    "phone": "+91-9812345678",
+    "experience_years": 8,
+    "current_designation": "Project Manager",
+    "current_company": "Wipro Technologies",
+    "education": [
+      {
+        "degree": "MBA",
+        "specialization": "IT Management",
+        "university": "SP Jain Institute",
+        "year_of_passing": 2015
+      }
+    ],
+    "key_skills": ["Agile", "Scrum", "JIRA", "Team Leadership", "Project Planning"],
+    "total_experience": "8 years",
+    "preferred_location": "Chennai",
+    "preferred_shift": "Flexible",
+    "current_location": "Chennai",
+    "notice_period_days": 90,
+    "expected_ctc": "22 LPA",
+    "current_ctc": "18 LPA",
+    "resume_pdf": "/uploads/resumes/sneha_iyer.pdf"
+  },
+  {
+    "_id": "c5",
+    "name": "Vikram Singh",
+    "email": "vikram.singh@example.com",
+    "phone": "+91-9876001122",
+    "experience_years": 3,
+    "current_designation": "Backend Developer",
+    "current_company": "Tech Mahindra",
+    "education": [
+      {
+        "degree": "B.Tech",
+        "specialization": "Information Technology",
+        "university": "NIT Jaipur",
+        "year_of_passing": 2019
+      }
+    ],
+    "key_skills": ["Node.js", "Express", "MongoDB", "Docker", "AWS"],
+    "total_experience": "3 years",
+    "preferred_location": "Pune",
+    "preferred_shift": "Night",
+    "current_location": "Noida",
+    "notice_period_days": 60,
+    "expected_ctc": "10 LPA",
+    "current_ctc": "7 LPA",
+    "resume_pdf": "/uploads/resumes/vikram_singh.pdf"
+  },
+  {
+    "_id": "c6",
+    "name": "Ananya Das",
+    "email": "ananya.das@example.com",
+    "phone": "+91-9811199887",
+    "experience_years": 5,
+    "current_designation": "Full Stack Developer",
+    "current_company": "Cognizant",
+    "education": [
+      {
+        "degree": "B.Tech",
+        "specialization": "Computer Science",
+        "university": "KIIT University",
+        "year_of_passing": 2018
+      }
+    ],
+    "key_skills": ["Angular", "Node.js", "MongoDB", "Express", "REST APIs"],
+    "total_experience": "5 years",
+    "preferred_location": "Kolkata",
+    "preferred_shift": "Day",
+    "current_location": "Kolkata",
+    "notice_period_days": 30,
+    "expected_ctc": "14 LPA",
+    "current_ctc": "10 LPA",
+    "resume_pdf": "/uploads/resumes/ananya_das.pdf"
+  },
+  {
+    "_id": "c7",
+    "name": "Karan Mehta",
+    "email": "karan.mehta@example.com",
+    "phone": "+91-9000099990",
+    "experience_years": 1,
+    "current_designation": "Junior Python Developer",
+    "current_company": "HCL",
+    "education": [
+      {
+        "degree": "B.Sc",
+        "specialization": "Computer Science",
+        "university": "Delhi University",
+        "year_of_passing": 2022
+      }
+    ],
+    "key_skills": ["Python", "Django", "Flask", "MySQL", "Git"],
+    "total_experience": "1 year",
+    "preferred_location": "Gurgaon",
+    "preferred_shift": "Day",
+    "current_location": "Delhi",
+    "notice_period_days": 15,
+    "expected_ctc": "4 LPA",
+    "current_ctc": "3 LPA",
+    "resume_pdf": "/uploads/resumes/karan_mehta.pdf"
+  },
+  {
+    "_id": "c8",
+    "name": "Ritu Agarwal",
+    "email": "ritu.agarwal@example.com",
+    "phone": "+91-9877123456",
+    "experience_years": 7,
+    "current_designation": "Data Engineer",
+    "current_company": "IBM India",
+    "education": [
+      {
+        "degree": "M.Tech",
+        "specialization": "Data Engineering",
+        "university": "BITS Pilani",
+        "year_of_passing": 2016
+      }
+    ],
+    "key_skills": ["Python", "Spark", "Hadoop", "ETL", "AWS Glue"],
+    "total_experience": "7 years",
+    "preferred_location": "Pune",
+    "preferred_shift": "Flexible",
+    "current_location": "Bangalore",
+    "notice_period_days": 45,
+    "expected_ctc": "20 LPA",
+    "current_ctc": "16 LPA",
+    "resume_pdf": "/uploads/resumes/ritu_agarwal.pdf"
+  },
+  {
+    "_id": "c9",
+    "name": "Aditya Kapoor",
+    "email": "aditya.kapoor@example.com",
+    "phone": "+91-9877012345",
+    "experience_years": 9,
+    "current_designation": "DevOps Engineer",
+    "current_company": "Accenture",
+    "education": [
+      {
+        "degree": "B.Tech",
+        "specialization": "Electronics",
+        "university": "VIT Vellore",
+        "year_of_passing": 2014
+      }
+    ],
+    "key_skills": ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
+    "total_experience": "9 years",
+    "preferred_location": "Bangalore",
+    "preferred_shift": "Flexible",
+    "current_location": "Bangalore",
+    "notice_period_days": 90,
+    "expected_ctc": "25 LPA",
+    "current_ctc": "20 LPA",
+    "resume_pdf": "/uploads/resumes/aditya_kapoor.pdf"
+  },
+  {
+    "_id": "c10",
+    "name": "Neha Patil",
+    "email": "neha.patil@example.com",
+    "phone": "+91-9933445566",
+    "experience_years": 4,
+    "current_designation": "UI/UX Designer",
+    "current_company": "L&T Infotech",
+    "education": [
+      {
+        "degree": "B.Des",
+        "specialization": "User Experience Design",
+        "university": "Symbiosis Institute",
+        "year_of_passing": 2019
+      }
+    ],
+    "key_skills": ["Figma", "Adobe XD", "Sketch", "HTML", "CSS"],
+    "total_experience": "4 years",
+    "preferred_location": "Mumbai",
+    "preferred_shift": "Day",
+    "current_location": "Mumbai",
+    "notice_period_days": 30,
+    "expected_ctc": "11 LPA",
+    "current_ctc": "8 LPA",
+    "resume_pdf": "/uploads/resumes/neha_patil.pdf"
+  },
+  {
+    "_id": "c11",
+    "name": "Saurabh Tiwari",
+    "email": "saurabh.tiwari@example.com",
+    "phone": "+91-9988776655",
+    "experience_years": 5,
+    "current_designation": "AI Engineer",
+    "current_company": "Persistent Systems",
+    "education": [
+      {
+        "degree": "M.Tech",
+        "specialization": "Artificial Intelligence",
+        "university": "IIIT Hyderabad",
+        "year_of_passing": 2018
+      }
+    ],
+    "key_skills": ["TensorFlow", "PyTorch", "NLP", "Python", "Deep Learning"],
+    "total_experience": "5 years",
+    "preferred_location": "Hyderabad",
+    "preferred_shift": "Flexible",
+    "current_location": "Hyderabad",
+    "notice_period_days": 45,
+    "expected_ctc": "18 LPA",
+    "current_ctc": "14 LPA",
+    "resume_pdf": "/uploads/resumes/saurabh_tiwari.pdf"
+  },
+  {
+    "_id": "c12",
+    "name": "Megha Reddy",
+    "email": "megha.reddy@example.com",
+    "phone": "+91-9000088888",
+    "experience_years": 3,
+    "current_designation": "QA Engineer",
+    "current_company": "Mindtree",
+    "education": [
+      {
+        "degree": "B.Tech",
+        "specialization": "Computer Engineering",
+        "university": "Osmania University",
+        "year_of_passing": 2020
+      }
+    ],
+    "key_skills": ["Selenium", "Postman", "API Testing", "JIRA", "Cypress"],
+    "total_experience": "3 years",
+    "preferred_location": "Bangalore",
+    "preferred_shift": "Day",
+    "current_location": "Hyderabad",
+    "notice_period_days": 30,
+    "expected_ctc": "9 LPA",
+    "current_ctc": "6 LPA",
+    "resume_pdf": "/uploads/resumes/megha_reddy.pdf"
+  }
+]
