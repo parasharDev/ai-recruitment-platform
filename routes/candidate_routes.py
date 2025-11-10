@@ -11,7 +11,7 @@ from utils.pdf_parser import parse_pdf
 from fastapi import HTTPException
 import traceback
 
-# 🆕 Imports for temporary Vector DB (RAG)
+# Imports for temporary Vector DB (RAG)
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -43,7 +43,7 @@ def get_candidate(id: str):
 def ai_score_candidates(jd: JobDescription):
     candidates = list(candidates_collection.find())
 
-    # Embed JD text
+    # Embeding JD text
     jd_embedding = embed_text(jd.jd_text)
 
     scored_candidates = []
@@ -97,10 +97,8 @@ def ai_score_candidates(jd: JobDescription):
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=100)
 
         docs = []
-
-        # ------------------------------
-        # Process all candidate resumes
-        # ------------------------------
+ 
+        # Processong all candidate resumes
         for candidate in candidates:
             pdf_path = candidate.get("resume_pdf")
             resume_text = ""
@@ -124,16 +122,14 @@ def ai_score_candidates(jd: JobDescription):
         if not docs:
             raise HTTPException(status_code=400, detail="No candidate documents available")
 
-        # ------------------------------
-        # Create temporary Chroma vector store
-        # ------------------------------
+        # Creating temporary Chroma vector store
         vectorstore = Chroma.from_documents(
             documents=docs,
             embedding=embedding_function,
             persist_directory=VECTOR_DB_PATH
         )
 
-        # 🆕 Use similarity search with scores (built-in Chroma score)
+        # Using similarity search with scores (built-in Chroma score)
         relevant_docs_with_scores = vectorstore.similarity_search_with_score(jd.jd_text, k=3)
 
         scored_candidates = []
@@ -143,8 +139,8 @@ def ai_score_candidates(jd: JobDescription):
             if not candidate:
                 continue
 
-            # 🆕 Using Chroma’s internal similarity score instead of manual cosine
-            normalized_score = 1 / (1 + score)  # Convert distance to similarity-like score (optional)
+            # Using Chroma’s internal similarity score instead of manual cosine
+            normalized_score = 1 / (1 + score) 
             explanation = generate_explanation(candidate, jd.jd_text, normalized_score)
 
             scored_candidates.append({
@@ -161,7 +157,7 @@ def ai_score_candidates(jd: JobDescription):
         return {"ranked_candidates": scored_candidates}
 
     except Exception as e:
-        print("❌ ERROR during candidate scoring:")
+        print("ERROR during candidate scoring:")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -174,7 +170,7 @@ groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 @router.post("/ai_score_candidates/llm_scoring")
 def ai_score_candidates(jd: JobDescription):
     try:
-        print("🔹 Starting candidate scoring...")
+        print("Starting candidate scoring...")
         candidates = list(candidates_collection.find())
 
         VECTOR_DB_PATH = "temp_vector_store"
@@ -190,7 +186,7 @@ def ai_score_candidates(jd: JobDescription):
             pdf_path = candidate.get("resume_pdf")
             resume_text = ""
             if pdf_path and os.path.exists(pdf_path):
-                print(f"📄 Parsing PDF: {pdf_path}")
+                print(f"Parsing PDF: {pdf_path}")
                 resume_text = parse_pdf(pdf_path)
             if not resume_text:
                 resume_text = " ".join(candidate["key_skills"]) + " " + candidate["current_designation"]
@@ -211,7 +207,7 @@ def ai_score_candidates(jd: JobDescription):
         if not docs:
             raise HTTPException(status_code=400, detail="No candidate documents available")
 
-        # 🆕 Create vector store and fetch relevant chunks with scores
+        # Create vector store and fetch relevant chunks with scores
         vectorstore = Chroma.from_documents(
             documents=docs,
             embedding=embedding_function,
@@ -219,7 +215,7 @@ def ai_score_candidates(jd: JobDescription):
         )
         relevant_docs = vectorstore.similarity_search_with_score(jd.jd_text, k=3)  # returns (Document, score)
 
-        # 🆕 Initialize LLM for semantic scoring
+        # Initialize LLM for semantic scoring
         llm = ChatGroq(
             model="llama-3.3-70b-versatile",
             api_key=os.getenv("GROQ_API_KEY")
@@ -246,7 +242,7 @@ def ai_score_candidates(jd: JobDescription):
             if not candidate:
                 continue
 
-            # 🆕 Get LLM-based semantic score
+            # Get LLM-based semantic score
             formatted_prompt = prompt_template.format(jd_text=jd.jd_text, resume_text=doc.page_content)
             llm_response = llm.invoke(formatted_prompt).content
             try:
@@ -257,7 +253,7 @@ def ai_score_candidates(jd: JobDescription):
                 llm_score = 0.0
                 explanation = llm_response.strip()
 
-            # 🆕 Metadata score (rule-based)
+            # Metadata score (rule-based)
             skills = candidate.get("key_skills", [])
             exp = candidate.get("experience", 0)
             metadata_score = 0.0
@@ -266,7 +262,7 @@ def ai_score_candidates(jd: JobDescription):
             if exp >= 3:
                 metadata_score += 0.05  # Example: add points for decent experience
 
-            # 🆕 Normalize retrieval score (since vector DB gives negative distance sometimes)
+            # Normalize retrieval score (since vector DB gives negative distance sometimes)
             retrieval_score = max(0.0, min(1.0, retrieval_score))
 
             # 🆕 Final weighted score
@@ -288,7 +284,7 @@ def ai_score_candidates(jd: JobDescription):
                 "explanation": explanation
             })
 
-        # Sort by descending total score
+        # Sorting by descending total score
         scored_candidates.sort(key=lambda x: x["total_score"], reverse=True)
 
         # Cleanup
