@@ -42,12 +42,9 @@ def get_candidate(id: str):
 @router.post("/ai_score_candidates/cosine_scoring")
 def ai_score_candidates(jd: JobDescription):
     candidates = list(candidates_collection.find())
-
     # Embeding JD text
     jd_embedding = embed_text(jd.jd_text)
-
     scored_candidates = []
-
     for candidate in candidates:
         pdf_path = candidate.get("resume_pdf")  # should contain path like "uploads/resumes/rahul_sharma.pdf"
         print("path",pdf_path)
@@ -93,8 +90,8 @@ def ai_score_candidates(jd: JobDescription):
         if os.path.exists(VECTOR_DB_PATH):
             shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
 
-        embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=100)
+        embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",encode_kwargs={"normalize_embeddings": True})
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
 
         docs = []
  
@@ -126,11 +123,12 @@ def ai_score_candidates(jd: JobDescription):
         vectorstore = Chroma.from_documents(
             documents=docs,
             embedding=embedding_function,
-            persist_directory=VECTOR_DB_PATH
+            persist_directory=VECTOR_DB_PATH,
+            collection_metadata={"hnsw:space": "cosine"}
         )
 
         # Using similarity search with scores (built-in Chroma score)
-        relevant_docs_with_scores = vectorstore.similarity_search_with_score(jd.jd_text, k=3)
+        relevant_docs_with_scores = vectorstore.similarity_search_with_score(jd.jd_text, k=5)
 
         scored_candidates = []
         for doc, score in relevant_docs_with_scores:
@@ -140,7 +138,8 @@ def ai_score_candidates(jd: JobDescription):
                 continue
 
             # Using Chroma’s internal similarity score instead of manual cosine
-            normalized_score = 1 / (1 + score) 
+            # normalized_score = 1 / (1 + score) 
+            normalized_score = 50 + 50 * max(0, 1 - score) 
             explanation = generate_explanation(candidate, jd.jd_text, normalized_score)
 
             scored_candidates.append({
