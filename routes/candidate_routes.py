@@ -23,6 +23,8 @@ from langchain_groq import ChatGroq
 from groq import Groq
 import os
 
+from services.embeddings_service import AzureTextEmbeddings
+
 
 router = APIRouter()
 
@@ -90,7 +92,8 @@ def ai_score_candidates(jd: JobDescription):
         if os.path.exists(VECTOR_DB_PATH):
             shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
 
-        embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",encode_kwargs={"normalize_embeddings": True})
+        # embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",encode_kwargs={"normalize_embeddings": True})
+        embedding_function = AzureTextEmbeddings()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
 
         docs = []

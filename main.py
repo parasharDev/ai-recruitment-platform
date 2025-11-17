@@ -6,6 +6,8 @@ from routes.interview_scheduling import router as interview_router
 from routes.web_hook import router as web_hook
 from routes.whatsapp_send import router as whatsapp_send
 
+from dotenv import load_dotenv
+load_dotenv()
 app = FastAPI(title="AI Hiring Assistant Backend")
 
 origins = [
