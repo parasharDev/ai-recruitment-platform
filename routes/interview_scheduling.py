@@ -17,7 +17,8 @@ router = APIRouter()
 @router.get("/auth/google")
 async def google_auth():
     """Starts the Google OAuth flow."""
-    flow = get_google_auth_flow('http://127.0.0.1:8000/api/auth/google/callback')
+    # flow = get_google_auth_flow('http://127.0.0.1:8000/api/auth/google/callback')
+    flow = get_google_auth_flow('https://ai-recruitment-platform-5.onrender.com/api/auth/google/callback')
     auth_url, _ = flow.authorization_url(prompt='consent')
     return RedirectResponse(url=auth_url)
 
@@ -27,20 +28,13 @@ async def google_auth_callback(code: str = None):
     if not code:
         raise HTTPException(status_code=400, detail="Authorization code missing")
 
-    flow = get_google_auth_flow('http://127.0.0.1:8000/api/auth/google/callback')
-    
+    # flow = get_google_auth_flow('http://127.0.0.1:8000/api/auth/google/callback')
+    flow = get_google_auth_flow('https://ai-recruitment-platform-5.onrender.com/api/auth/google/callback')
+
     try:
-        # Use a dummy request to exchange the code for credentials
         flow.fetch_token(code=code)
-        
-        # In a real app, you would save flow.credentials (access_token, refresh_token, etc.) 
-        # to a secure database associated with the interviewer's user account.
-        
-        # For this example, we'll store it simply (NOT SECURE FOR PRODUCTION)
-        # You'll need a proper database for real-world applications.
         global CREDENTIALS_CACHE
         CREDENTIALS_CACHE = flow.credentials
-        
         return JSONResponse(content={"message": "Authentication successful. Credentials stored in cache."}, 
                             status_code=status.HTTP_200_OK)
 

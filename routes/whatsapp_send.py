@@ -26,7 +26,7 @@ def whatsapp_propose_slots(
 
     try:
 
-        # ✅ FIX 1: Validate Google auth
+        # FIX 1: Validate Google auth
         if service is None:
             raise Exception("Google authentication not completed. Call /api/auth/google first.")
 
@@ -41,7 +41,7 @@ def whatsapp_propose_slots(
             "items": [{"id": interviewer_calendar_id}]
         }
 
-        # ✅ FIX 2: FreeBusy API call is correct
+        #  FIX 2: FreeBusy API call is correct
         fb_resp = service.freebusy().query(body=fb_query).execute()
 
         if interviewer_calendar_id not in fb_resp["calendars"]:
@@ -49,7 +49,7 @@ def whatsapp_propose_slots(
 
         busy_times = fb_resp["calendars"][interviewer_calendar_id].get("busy", [])
 
-        # ✅ Working hours and slot duration
+        #  Working hours and slot duration
         work_start = 9
         work_end = 17
         slot_dur = timedelta(hours=1)
@@ -83,26 +83,26 @@ def whatsapp_propose_slots(
         if not slots:
             raise Exception("No free slots found.")
 
-        # ✅ Reduce to top N
+        #  Reduce to top N
         top_slots = slots[:count]
 
-        # ✅ Convert to WhatsApp button labels
+        #  Convert to WhatsApp button labels
         labels = []
         for s in top_slots:
             st = datetime.strptime(s["start"], "%Y-%m-%dT%H:%M:%S")
             en = datetime.strptime(s["end"], "%Y-%m-%dT%H:%M:%S")
 
-    # ✅ Short button label (always <20 chars)
+    # Short button label (always <20 chars)
             start_label = st.strftime("%I:%M%p")   # e.g., 10:00AM
             end_label = en.strftime("%I:%M%p")     # e.g., 11:00AM
 
             labels.append(f"{start_label}-{end_label}")  # e.g., "10:00AM-11:00AM"
 
 
-        # ✅ Cache for webhook selection
+        # Cache for webhook selection
         SLOT_CACHE[candidate_whatsapp] = top_slots
 
-        # ✅ Send WhatsApp interactive message
+        # Send WhatsApp interactive message
         send_slot_buttons(candidate_whatsapp, "Please choose an interview slot:", labels)
 
         return {
@@ -112,7 +112,7 @@ def whatsapp_propose_slots(
 
     except Exception as e:
         import traceback
-        print("🔥 ERROR in /whatsapp/propose_slots:")
+        print("ERROR in /whatsapp/propose_slots:")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
