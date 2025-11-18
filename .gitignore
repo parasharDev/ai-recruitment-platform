@@ -21,7 +21,6 @@ Thumbs.db
 
 # Env / secrets
 .env
-credentials.json
 token.json
 
 # Logs
