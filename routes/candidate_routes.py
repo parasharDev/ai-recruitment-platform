@@ -96,6 +96,7 @@ def ai_score_candidates(jd: JobDescription):
                 print(f"📄 Parsing PDF: {pdf_path}")
                 resume_text = parse_pdf(pdf_path)
             if not resume_text:
+                print(f"📄 Fallback: {pdf_path}")
                 resume_text = (
                     " ".join(candidate["key_skills"]) + " " + candidate["current_designation"]
                 )
@@ -118,13 +119,15 @@ def ai_score_candidates(jd: JobDescription):
             documents=docs,
             embedding=embedding_function,
             collection_name="scoring_index",  
-            persist_directory=None 
+            persist_directory=None,
+            collection_metadata={"hnsw:space": "cosine"} 
         )
 
         relevant_docs_with_scores = vectorstore.similarity_search_with_score(jd.jd_text, k=5)
 
         scored_candidates = []
         for doc, score in relevant_docs_with_scores:
+            print(f"Score: {score}")
             metadata = doc.metadata
             candidate_id = metadata["id"]
 
@@ -133,6 +136,8 @@ def ai_score_candidates(jd: JobDescription):
                 continue
 
             # Normalize score:
+            # similarity = max(0, 1 - score)
+            # normalized_score = round(100 * (1 / score), 2)
             normalized_score = 50 + 50 * max(0, 1 - score)
 
             explanation = generate_explanation(candidate, jd.jd_text, normalized_score)
@@ -143,6 +148,7 @@ def ai_score_candidates(jd: JobDescription):
                 "email": candidate["email"],
                 "phone": candidate["phone"],
                 "total_score": round(normalized_score, 4),
+                # "total_score": normalized_score,
                 "explanation": explanation
             })
 

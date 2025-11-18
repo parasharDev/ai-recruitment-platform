@@ -18,18 +18,17 @@ def whatsapp_propose_slots(
     interviewer_calendar_id: str = Query(...),
     start_date: str = Query(...),
     end_date: str = Query(...),
+    job_title: str = Query(...),
+    candidate_name: str = Query(...),
     count: int = Query(3, ge=1, le=3),
     service=Depends(get_current_service)
 ):
     import pytz
     from datetime import timedelta
-
     try:
-
         # FIX 1: Validate Google auth
         if service is None:
             raise Exception("Google authentication not completed. Call /api/auth/google first.")
-
         tz = pytz.timezone("Asia/Kolkata")
         start_dt = tz.localize(datetime.strptime(start_date, "%Y-%m-%d"))
         end_dt = tz.localize(datetime.strptime(end_date, "%Y-%m-%d") + timedelta(days=1))
@@ -103,7 +102,17 @@ def whatsapp_propose_slots(
         SLOT_CACHE[candidate_whatsapp] = top_slots
 
         # Send WhatsApp interactive message
-        send_slot_buttons(candidate_whatsapp, "Please choose an interview slot:", labels)
+        message_text = (
+        f"Hello *{candidate_name}*,\n\n"
+        f"Greetings from ABC Company!\n"
+        f"We are impressed with your profile for the *{job_title}* position.\n"
+        "We would like to invite you for a virtual interview.\n\n"
+        "Please choose one of the following available slots that works best for you:"
+        )
+
+        send_slot_buttons(candidate_whatsapp, message_text, labels)
+
+        # send_slot_buttons(candidate_whatsapp, "Hello {candidate_name}.We are impressed with your profile for the {job_title} position and would like to invite you for a virtual interview.Please choose one of the following available slots that works best for you:", labels)
 
         return {
             "message": "Slots sent to WhatsApp!",
