@@ -259,7 +259,7 @@ def ai_score_candidates(jd: JobDescription):
             # Normalize retrieval score (since vector DB gives negative distance sometimes)
             retrieval_score = max(0.0, min(1.0, retrieval_score))
 
-            # 🆕 Final weighted score
+            # Final weighted score
             final_score = (
                 0.5 * retrieval_score +
                 0.4 * llm_score +
