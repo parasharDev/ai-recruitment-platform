@@ -1,11 +1,9 @@
 import os
 import shutil
 from fastapi import APIRouter, HTTPException
-from sentence_transformers import SentenceTransformer
 from database.connection import candidates_collection
 from models.candidate_model import Candidate
 from models.job_model import JobDescription
-from utils.embeddings import embed_text, cosine_similarity
 from utils.explanation import generate_explanation
 from utils.pdf_parser import parse_pdf
 from fastapi import HTTPException
@@ -16,7 +14,6 @@ from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sklearn.metrics.pairwise import cosine_similarity as sk_cosine
-import numpy as np
 import traceback
 from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
@@ -41,8 +38,8 @@ def get_candidate(id: str):
     return candidate
 
 # <---Cosine Scoring--->
-@router.post("/ai_score_candidates/cosine_scoring")
-def ai_score_candidates(jd: JobDescription):
+# @router.post("/ai_score_candidates/cosine_scoring")
+# def ai_score_candidates(jd: JobDescription):
     candidates = list(candidates_collection.find())
     # Embeding JD text
     jd_embedding = embed_text(jd.jd_text)
