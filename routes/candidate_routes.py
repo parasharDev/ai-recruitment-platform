@@ -84,18 +84,11 @@ def get_candidate(id: str):
 def ai_score_candidates(jd: JobDescription):
     try:
         print("🔹 Starting candidate scoring...")
-        candidates = list(candidates_collection.find())
-        VECTOR_DB_PATH = "/tmp/temp_vector_store"
-        if os.path.exists(VECTOR_DB_PATH):
-            shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
 
-        # embedding_function = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2",encode_kwargs={"normalize_embeddings": True})
+        candidates = list(candidates_collection.find())
         embedding_function = AzureTextEmbeddings()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
-
         docs = []
- 
-        # Processong all candidate resumes
         for candidate in candidates:
             pdf_path = candidate.get("resume_pdf")
             resume_text = ""
@@ -103,7 +96,9 @@ def ai_score_candidates(jd: JobDescription):
                 print(f"📄 Parsing PDF: {pdf_path}")
                 resume_text = parse_pdf(pdf_path)
             if not resume_text:
-                resume_text = " ".join(candidate["key_skills"]) + " " + candidate["current_designation"]
+                resume_text = (
+                    " ".join(candidate["key_skills"]) + " " + candidate["current_designation"]
+                )
 
             chunks = text_splitter.create_documents(
                 [resume_text],
@@ -119,27 +114,27 @@ def ai_score_candidates(jd: JobDescription):
         if not docs:
             raise HTTPException(status_code=400, detail="No candidate documents available")
 
-        # Creating temporary Chroma vector store
         vectorstore = Chroma.from_documents(
             documents=docs,
             embedding=embedding_function,
-            persist_directory=VECTOR_DB_PATH,
-            collection_metadata={"hnsw:space": "cosine"}
+            collection_name="scoring_index",  
+            persist_directory=None 
         )
 
-        # Using similarity search with scores (built-in Chroma score)
         relevant_docs_with_scores = vectorstore.similarity_search_with_score(jd.jd_text, k=5)
 
         scored_candidates = []
         for doc, score in relevant_docs_with_scores:
             metadata = doc.metadata
-            candidate = next((c for c in candidates if str(c["_id"]) == metadata["id"]), None)
+            candidate_id = metadata["id"]
+
+            candidate = next((c for c in candidates if str(c["_id"]) == candidate_id), None)
             if not candidate:
                 continue
 
-            # Using Chroma’s internal similarity score instead of manual cosine
-            # normalized_score = 1 / (1 + score) 
-            normalized_score = 50 + 50 * max(0, 1 - score) 
+            # Normalize score:
+            normalized_score = 50 + 50 * max(0, 1 - score)
+
             explanation = generate_explanation(candidate, jd.jd_text, normalized_score)
 
             scored_candidates.append({
@@ -152,7 +147,7 @@ def ai_score_candidates(jd: JobDescription):
             })
 
         scored_candidates.sort(key=lambda x: x["total_score"], reverse=True)
-        shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
+
         return {"ranked_candidates": scored_candidates}
 
     except Exception as e:
