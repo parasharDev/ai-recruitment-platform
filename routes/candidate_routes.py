@@ -85,7 +85,7 @@ def ai_score_candidates(jd: JobDescription):
     try:
         print("🔹 Starting candidate scoring...")
         candidates = list(candidates_collection.find())
-        VECTOR_DB_PATH = "temp_vector_store"
+        VECTOR_DB_PATH = "/tmp/temp_vector_store"
         if os.path.exists(VECTOR_DB_PATH):
             shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
 
@@ -172,7 +172,7 @@ def ai_score_candidates(jd: JobDescription):
         print("Starting candidate scoring...")
         candidates = list(candidates_collection.find())
 
-        VECTOR_DB_PATH = "temp_vector_store"
+        VECTOR_DB_PATH = "/tmp/temp_vector_store"
         if os.path.exists(VECTOR_DB_PATH):
             shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
 
