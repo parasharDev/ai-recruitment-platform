@@ -5,6 +5,7 @@ from routes.candidate_routes import router as candidate_router
 from routes.interview_scheduling import router as interview_router  
 from routes.web_hook import router as web_hook
 from routes.whatsapp_send import router as whatsapp_send
+from routes.jd_generation import router as jd_generation_router
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -30,7 +31,8 @@ app.add_middleware(
 app.include_router(candidate_router, prefix="/api")
 app.include_router(interview_router, prefix="/api")
 app.include_router(web_hook, prefix="/api")
-app.include_router(whatsapp_send, prefix="/api")     
+app.include_router(whatsapp_send, prefix="/api")
+app.include_router(jd_generation_router, prefix="/api")         
 
 @app.get("/")
 def root():
