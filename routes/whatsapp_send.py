@@ -9,7 +9,8 @@ from routes.interview_scheduling import get_current_service  # reuse your depend
 router = APIRouter()
 
 # Simple in-memory cache { whatsapp_number: [ {start, end}, ... ] }
-SLOT_CACHE: Dict[str, List[Dict[str, str]]] = {}
+# SLOT_CACHE: Dict[str, List[Dict[str, str]]] = {}
+SLOT_CACHE: Dict[str, List[Dict[str, any]]] = {}
 
 
 @router.post("/whatsapp/propose_slots")
@@ -20,6 +21,7 @@ def whatsapp_propose_slots(
     end_date: str = Query(...),
     job_title: str = Query(...),
     candidate_name: str = Query(...),
+    candidate_email: str = Query(...), 
     count: int = Query(3, ge=1, le=3),
     service=Depends(get_current_service)
 ):
@@ -99,7 +101,17 @@ def whatsapp_propose_slots(
 
 
         # Cache for webhook selection
-        SLOT_CACHE[candidate_whatsapp] = top_slots
+        # SLOT_CACHE[candidate_whatsapp] = top_slots
+        SLOT_CACHE[candidate_whatsapp] = {
+            "slots": top_slots,
+            "candidate_email": candidate_email,
+            "candidate_name": candidate_name,
+            "job_title": job_title,
+            "status": "proposed",
+            "selected_slot": None,
+            "meet_link": None,
+            "html_link": None
+        }
 
         # Send WhatsApp interactive message
         message_text = (
@@ -124,6 +136,17 @@ def whatsapp_propose_slots(
         print("ERROR in /whatsapp/propose_slots:")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
+    
+
+    #  — Get scheduled meeting status
+@router.get("/whatsapp/slot_status")
+def slot_status(whatsapp_number: str):
+    """
+    Returns slot + meeting details stored in SLOT_CACHE
+    for a given candidate WhatsApp number.
+    """
+    return SLOT_CACHE.get(whatsapp_number, {})
+
 
 
 
