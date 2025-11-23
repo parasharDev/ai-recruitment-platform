@@ -153,6 +153,15 @@ def ai_score_candidates(jd: JobDescription):
             })
 
         scored_candidates.sort(key=lambda x: x["total_score"], reverse=True)
+        # Remove returning of duplicate candidates
+        unique = []
+        seen = set()
+        for c in scored_candidates:
+            if c["candidate_id"] not in seen:
+                unique.append(c)
+                seen.add(c["candidate_id"])
+
+        scored_candidates = unique
 
         return {"ranked_candidates": scored_candidates}
 
