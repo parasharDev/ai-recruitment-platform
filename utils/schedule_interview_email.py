@@ -1,6 +1,7 @@
 from services.google_service import get_current_service
+import os
 
-INTERVIEWER_EMAIL = "parasharghosh123@gmail.com"
+INTERVIEWER_EMAIL = os.getenv("INTERVIEWER_EMAIL") 
 
 def schedule_interview_email(selected_slot, candidate_email, job_title, from_number):
     """

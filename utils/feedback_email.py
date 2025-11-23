@@ -3,7 +3,7 @@
 import os
 from services.google_service import get_current_service
 
-INTERVIEWER_EMAIL = "parasharghosh123@gmail.com"
+INTERVIEWER_EMAIL = os.getenv("INTERVIEWER_EMAIL")  
 FEEDBACK_FORM = os.getenv("FEEDBACK_FORM")   
 
 def send_feedback_email(candidate_name, job_title, selected_slot):
