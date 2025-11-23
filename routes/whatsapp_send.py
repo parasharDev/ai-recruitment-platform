@@ -4,7 +4,8 @@ from typing import List, Dict
 from utils.whatsapp_client import send_slot_buttons
 from google.auth.transport.requests import Request
 from utils.google_calendar import get_calendar_service
-from routes.interview_scheduling import get_current_service  # reuse your dependency
+# from routes.interview_scheduling import get_current_service 
+from services.google_service import get_current_service
 
 router = APIRouter()
 
