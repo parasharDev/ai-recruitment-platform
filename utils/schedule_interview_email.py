@@ -37,6 +37,7 @@ def schedule_interview_email(selected_slot, candidate_email, job_title, from_num
         calendarId="primary",
         body=event_body,
         conferenceDataVersion=1,
+        sendUpdates="all", 
         sendNotifications=True  # email invites sent automatically
     ).execute()
 
